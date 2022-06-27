@@ -53,6 +53,23 @@ RSpec.describe Takeaway do
             result = takeaway.view_basket
             expect(result).to eq "Your Order: \n2. Dish_2 - £7\nYour Grand Total: £7"
         end
+
+        it "Returns 2 basket items after adding 3 items and removing 1" do
+            takeaway = Takeaway.new
+            fake_item_1 = double(:fake_item, identifier: "1", dish: "Dish_1", price: "5", to_s: "1. Dish_1 - £5")
+            fake_item_2 = double(:fake_item, identifier: "2", dish: "Dish_2", price: "7", to_s: "2. Dish_2 - £7")
+            fake_item_3 = double(:fake_item, identifier: "3", dish: "Dish_3", price: "10", to_s: "3. Dish_3 - £10")
+            fake_item_4 = double(:fake_item, identifier: "4", dish: "Dish_4", price: "8", to_s: "4. Dish_4 - £8")
+            takeaway.add_to_menu(fake_item_1)
+            takeaway.add_to_menu(fake_item_2)
+            takeaway.add_to_menu(fake_item_4)
+            takeaway.add_to_basket("1")
+            takeaway.add_to_basket("3")
+            takeaway.add_to_basket("4")
+            takeaway.remove_from_basket(4)
+            result = takeaway.view_basket
+            expect(result).to eq "Your Order: \n1. Dish_1 - £5\n4. Dish_4 - £8\nYour Grand Total: £13"
+        end
     end
         
     context "Shows basket error message" do
