@@ -1,12 +1,12 @@
 class MenuItem
-    def initialize(item_num, dish, price)
-      @item_num = item_num
+    def initialize(identifier, dish, price)
+      @identifier = identifier
       @dish = dish
       @price = price
     end
   
-    def item_num
-        return @item_num
+    def identifier
+        return @identifier
     end
   
     def dish
@@ -15,5 +15,9 @@ class MenuItem
   
     def price
         return @price
+    end
+
+    def to_s
+        return "#{@identifier}. #{@dish} - £#{@price}"
     end
   end
