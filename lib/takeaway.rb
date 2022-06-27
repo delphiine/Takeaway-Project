@@ -1,10 +1,14 @@
 class Takeaway
-    def initialize(menu)
-        @menu = menu
+    def initialize
+        @menu = []
     end
 
     def view_menu
-        "#{@menu.item_num}. #{@menu.dish} - £#{@menu.price}"
+        @menu.join("\n")
+    end
+
+    def add_to_menu(item)
+        @menu << ("#{item.item_num}. #{item.dish} - £#{item.price}")
     end
 
 end
