@@ -1,8 +1,7 @@
 class Takeaway
     def initialize
         @menu = []
-        @basekt = []
-        @grand_total = 0
+        @basket = []
     end
 
     def view_menu 
@@ -10,23 +9,25 @@ class Takeaway
     end
 
     def add_to_menu(item)
-        @menu << ("#{item.item_num}. #{item.dish} - £#{item.price}")
+        @menu << item
     end
 
-    def view_basekt  # Returns a string
+    def view_basket  # Returns a string
     #     Your Order: 
     #     1. Dish_1 - £1
     #     2. Dish_2 - £1
     #     Your Grand Total: £2
-        "Your Order: \n#{@basekt.join("\n")}\nYour Grand Total: £#{grand_total}"
+        "Your Order: \n#{@basket.join("\n")}\nYour Grand Total: £#{grand_total}"
     end
 
     def grand_total # Calculates the total of item prices and returns integer
-        @menu.each { |item| @grand_total += item[-1].to_i } 
-        @grand_total
+        sum = 0
+        @basket.each { |item| sum += item.price.to_i
+        }
+        return sum
     end
 
-    def add_to_basekt(num)
-        @menu.each { |item| @basekt << item if item[0] == num }     
+    def add_to_basket(num)
+        @menu.each { |item| @basket << item if item.identifier == num }
     end
 end
