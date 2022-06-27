@@ -54,6 +54,17 @@ RSpec.describe Takeaway do
             result = takeaway.view_basket
             expect(result).to eq "Your Order: \n2. Dish_2 - £7\nYour Grand Total: £7"
         end
+
+        it "Returns the only item in basket when there are several item on menu" do
+            takeaway = Takeaway.new            
+            menu_item_1 = MenuItem.new("1", "Dish_1", "5")
+            menu_item_2 = MenuItem.new("2", "Dish_2", "7")
+            takeaway.add_to_menu(menu_item_1)
+            takeaway.add_to_menu(menu_item_2)
+            takeaway.add_to_basket("2")
+            result = takeaway.view_basket
+            expect(result).to eq "Your Order: \n2. Dish_2 - £7\nYour Grand Total: £7"
+        end
     end
 
     context "Shows basket error message" do
@@ -68,8 +79,10 @@ RSpec.describe Takeaway do
             menu_item_2 = MenuItem.new("2", "Dish_2", "7")
             takeaway.add_to_menu(menu_item_1)
             takeaway.add_to_menu(menu_item_2)
-            takeaway.remove_from_basket(menu_item_1)
-            takeaway.remove_from_basket(menu_item_2)
+            takeaway.add_to_basket("1")
+            takeaway.add_to_basket("2")
+            takeaway.remove_from_basket("1")
+            takeaway.remove_from_basket("2")
             expect{ takeaway.view_basket }.to raise_error "Your basket is empty"
         end
     end

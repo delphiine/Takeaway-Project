@@ -54,5 +54,25 @@ RSpec.describe Takeaway do
             expect(result).to eq "Your Order: \n2. Dish_2 - £7\nYour Grand Total: £7"
         end
     end
+        
+    context "Shows basket error message" do
+        it "Return 'Your basket is empty' when the basket is empty" do
+            takeaway = Takeaway.new
+            expect{ takeaway.view_basket }.to raise_error "Your basket is empty"
+        end
+
+        it "Return 'Your basket is empty' when adding and then removing all items" do
+            takeaway = Takeaway.new
+            fake_item_1 = double(:fake_item, identifier: "1", dish: "Dish_1", price: "5", to_s: "1. Dish_1 - £5")
+            fake_item_2 = double(:fake_item, identifier: "2", dish: "Dish_2", price: "7", to_s: "2. Dish_2 - £7")
+            takeaway.add_to_menu(fake_item_1)
+            takeaway.add_to_menu(fake_item_2)
+            takeaway.add_to_basket("1")
+            takeaway.add_to_basket("2")
+            takeaway.remove_from_basket("1")
+            takeaway.remove_from_basket("2")
+            expect{ takeaway.view_basket }.to raise_error "Your basket is empty"
+        end
+    end
 end
  
