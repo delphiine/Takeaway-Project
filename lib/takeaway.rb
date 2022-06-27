@@ -17,10 +17,6 @@ class Takeaway
     end
 
     def add_to_basekt(num)
-        @menu.each do |item|
-            if item[0] == num
-                @basekt << item
-            end
-        end     
+        @menu.each { |item| @basekt << item if item[0] == num }     
     end
 end
