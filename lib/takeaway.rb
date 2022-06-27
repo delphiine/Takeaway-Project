@@ -21,14 +21,18 @@ class Takeaway
         "Your Order: \n#{@basket.join("\n")}\nYour Grand Total: £#{grand_total}"
     end
 
+    def add_to_basket(num)
+        @menu.each { |item| @basket << item if item.identifier == num }
+    end
+
+    def remove_from_basket(num)
+        @menu.each { |item| @basket.delete(item) if item.identifier == num }
+    end
+
     def grand_total # Calculates the total of item prices and returns integer
         sum = 0
         @basket.each { |item| sum += item.price.to_i
         }
         return sum
-    end
-
-    def add_to_basket(num)
-        @menu.each { |item| @basket << item if item.identifier == num }
     end
 end
