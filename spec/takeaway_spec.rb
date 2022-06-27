@@ -20,5 +20,16 @@ RSpec.describe Takeaway do
             expect(result).to eq "1. Dish_1 - £5\n2. Dish_2 - £7"
         end
     end
+
+    context "Shows the basket" do
+        it "Returns the basket with 1 item" do
+            takeaway = Takeaway.new
+            fake_item = double(:fake_item, item_num: "1", dish: "Dish", price: "5")
+            takeaway.add_to_menu(fake_item)
+            takeaway.add_to_basekt("1")
+            result = takeaway.view_basekt
+            expect(result).to eq "1. Dish - £5"
+        end
+    end
 end
  
