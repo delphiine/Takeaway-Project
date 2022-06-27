@@ -17,6 +17,7 @@ class Takeaway
     #     1. Dish_1 - £1
     #     2. Dish_2 - £1
     #     Your Grand Total: £2
+        fail "Your basket is empty" if @basket.empty?
         "Your Order: \n#{@basket.join("\n")}\nYour Grand Total: £#{grand_total}"
     end
 
