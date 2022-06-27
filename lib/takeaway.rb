@@ -4,6 +4,7 @@ class Takeaway
     end
 
     def view_menu
-        return @menu
-    end 
+        "#{@menu.item_num}. #{@menu.dish} - £#{@menu.price}"
+    end
+
 end
