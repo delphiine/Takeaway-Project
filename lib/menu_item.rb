@@ -1,4 +1,4 @@
-class Menu
+class MenuItem
     def initialize(item_num, dish, price)
       @item_num = item_num
       @dish = dish
