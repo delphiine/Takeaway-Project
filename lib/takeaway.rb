@@ -13,12 +13,12 @@ class Takeaway
     end
 
     def view_basket  # Returns a string
-    #     Your Order: 
+    #     Your Basket: 
     #     1. Dish_1 - £1
     #     2. Dish_2 - £1
     #     Your Grand Total: £2
         fail "Your basket is empty" if @basket.empty?
-        "Your Order: \n#{@basket.join("\n")}\nYour Grand Total: £#{grand_total}"
+        "Your Basket: \n#{@basket.join("\n")}\nYour Grand Total: £#{grand_total}"
     end
 
     def add_to_basket(num)
