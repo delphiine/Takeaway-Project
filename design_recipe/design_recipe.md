@@ -59,6 +59,10 @@ class Takeaway
     end
 
     def view_basket #returns string of items in basket and grand total 
+    #     Your Basket: 
+    #     1. Dish_1 - £1
+    #     2. Dish_2 - £1
+    #     Your Grand Total: £2
     end
 
     def add_to_basket(num) 
