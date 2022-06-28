@@ -92,4 +92,19 @@ RSpec.describe Takeaway do
             expect{ takeaway.view_basket }.to raise_error "Your basket is empty"
         end
     end
+
+    context "Raises error if an order has not been placed" do
+        it "Raises error if shopper added items to basket but did not place an order" do
+            takeaway = Takeaway.new
+            menu_item_1 = MenuItem.new("1", "Dish_1", "5")
+            menu_item_2 = MenuItem.new("2", "Dish_2", "7")
+            takeaway.add_to_menu(menu_item_1)
+            takeaway.add_to_menu(menu_item_2)
+            takeaway.add_to_basket("1")
+            takeaway.add_to_basket("2")
+            takeaway.remove_from_basket("1")
+            takeaway.remove_from_basket("2")
+            expect{ takeaway.confirm_order }.to raise_error "No orders have been placed yet"
+        end
+    end
 end

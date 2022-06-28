@@ -91,5 +91,78 @@ RSpec.describe Takeaway do
             expect{ takeaway.view_basket }.to raise_error "Your basket is empty"
         end
     end
+
+    it "fails to place order if basket is empty" do
+        takeaway = Takeaway.new
+        fake_item_1 = double(:fake_item, identifier: "1", dish: "Dish_1", price: "5", to_s: "1. Dish_1 - £5")
+        fake_item_2 = double(:fake_item, identifier: "2", dish: "Dish_2", price: "7", to_s: "2. Dish_2 - £7")
+        takeaway.add_to_menu(fake_item_1)
+        takeaway.add_to_menu(fake_item_2)
+        expect{ takeaway.place_order }.to raise_error "Your basket is empty"
+    end
+
+    context "Sends shopper an order confirmation sms" do
+        it "Returns a thank you message if order has been placed" do
+            ENV['TWILIO_NUMBER'] = twilio_number = "+1234"
+            ENV['MY_NUMBER'] = my_number = "+4567"
+            fake_sid = '123'
+            fake_message = double(:fake_message, sid: fake_sid)
+            fake_messages = double(:fake_messages)
+            allow(fake_messages).to receive(:create).with(
+                body: 'Thank you! Your order was placed and will be delivered before 18:52',
+                from: twilio_number,
+                to: my_number          
+            ).and_return(fake_message)
+            fake_client = double(:client, messages: fake_messages)
+            takeaway = Takeaway.new(fake_client)
+            fake_item_1 = double(:fake_item, identifier: "1", dish: "Dish_1", price: "5", to_s: "1. Dish_1 - £5")
+            fake_item_2 = double(:fake_item, identifier: "2", dish: "Dish_2", price: "7", to_s: "2. Dish_2 - £7")
+            takeaway.add_to_menu(fake_item_1)
+            takeaway.add_to_menu(fake_item_2)
+            takeaway.add_to_basket("1")
+            takeaway.place_order
+            expect(takeaway.confirm_order).to eq fake_sid
+        end
+    end
+        
+    context "Fails to confirm order" do
+        it "Raises error if no order was placed" do
+            ENV['TWILIO_NUMBER'] = twilio_number = "+1234"
+            ENV['MY_NUMBER'] = my_number = "+4567"
+            fake_sid = '123'
+            fake_message = double(:fake_message, sid: fake_sid)
+            fake_messages = double(:fake_messages)
+            allow(fake_messages).to receive(:create).with(
+                body: 'Thank you! Your order was placed and will be delivered before 18:52',
+                from: twilio_number,
+                to: my_number          
+            ).and_return(fake_message)
+            fake_client = double(:client, messages: fake_messages)
+            takeaway = Takeaway.new(fake_client)
+            expect{ takeaway.confirm_order }.to raise_error "No orders have been placed yet"
+        end
+
+        it "Raises error if shopper added items to basket but did not place an order" do
+            takeaway = Takeaway.new
+            fake_item_1 = double(:fake_item, identifier: "1", dish: "Dish_1", price: "5", to_s: "1. Dish_1 - £5")
+            fake_item_2 = double(:fake_item, identifier: "2", dish: "Dish_2", price: "7", to_s: "2. Dish_2 - £7")
+            takeaway.add_to_menu(fake_item_1)
+            takeaway.add_to_menu(fake_item_2)
+            takeaway.add_to_basket("1")
+            takeaway.add_to_basket("2")
+            expect{ takeaway.confirm_order }.to raise_error "No orders have been placed yet"
+        end
+
+        it "Raises error if Twilio client is nil"do
+            takeaway = Takeaway.new
+            fake_item_1 = double(:fake_item, identifier: "1", dish: "Dish_1", price: "5", to_s: "1. Dish_1 - £5")
+            fake_item_2 = double(:fake_item, identifier: "2", dish: "Dish_2", price: "7", to_s: "2. Dish_2 - £7")
+            takeaway.add_to_menu(fake_item_1)
+            takeaway.add_to_menu(fake_item_2)
+            takeaway.add_to_basket("1")
+            takeaway.place_order
+            expect{ takeaway.confirm_order }.to raise_error "No Twilio client available"
+        end
+    end
 end
  
