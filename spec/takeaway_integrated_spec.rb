@@ -29,7 +29,7 @@ RSpec.describe Takeaway do
             takeaway.add_to_menu(menu_item)
             takeaway.add_to_basket("1")
             result = takeaway.view_basket
-            expect(result).to eq "Your Order: \n1. Dish - £5\nYour Grand Total: £5"
+            expect(result).to eq "Your Basket: \n1. Dish - £5\nYour Grand Total: £5"
         end
     
         it "Returns the basket with multiple items" do
@@ -41,7 +41,7 @@ RSpec.describe Takeaway do
             takeaway.add_to_basket("1")
             takeaway.add_to_basket("2")
             result = takeaway.view_basket
-            expect(result).to eq "Your Order: \n1. Dish_1 - £5\n2. Dish_2 - £7\nYour Grand Total: £12"
+            expect(result).to eq "Your Basket: \n1. Dish_1 - £5\n2. Dish_2 - £7\nYour Grand Total: £12"
         end
 
         it "Returns the only item in basket when there are several item on menu" do
@@ -52,7 +52,7 @@ RSpec.describe Takeaway do
             takeaway.add_to_menu(menu_item_2)
             takeaway.add_to_basket("2")
             result = takeaway.view_basket
-            expect(result).to eq "Your Order: \n2. Dish_2 - £7\nYour Grand Total: £7"
+            expect(result).to eq "Your Basket: \n2. Dish_2 - £7\nYour Grand Total: £7"
         end
 
         it "Returns 2 basket items after adding 3 items and removing 1" do
@@ -69,7 +69,7 @@ RSpec.describe Takeaway do
             takeaway.add_to_basket("4")
             takeaway.remove_from_basket(4)
             result = takeaway.view_basket
-            expect(result).to eq "Your Order: \n1. Dish_1 - £5\n4. Dish_4 - £8\nYour Grand Total: £13"
+            expect(result).to eq "Your Basket: \n1. Dish_1 - £5\n4. Dish_4 - £8\nYour Grand Total: £13"
         end
     end
 
