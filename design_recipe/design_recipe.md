@@ -14,7 +14,7 @@ I would like to see an itemised receipt with a grand total.
 
 As a customer
 So that I am reassured that my order will be delivered on time
-I would like to receive a text such as "Thank you! Your order was placed and will be delivered before 18:52" after I have ordered.
+I would like to receive a text such as "Thank you! Your order was placed and will be delivered before 1£8.10:52" after I have ordered.
 
 2. Design the Class System
 Consider diagramming out the classes and their relationships. Take care to focus on the details you see as important, not everything. The diagram below uses asciiflow.com but you could also use excalidraw.com, draw.io, or miro.com
@@ -74,11 +74,10 @@ class Takeaway
     def grand_total # calculates the total of item prices and returns integer
     end
 
-    def order # checks if the order has been placed
+    def place_order # sets "order status" to true 
     end
 
-    def order_confirmation 
-    #returns a 'thank you for the order message' as a string"
+    def order_confirmation #Sends order confirmation message to customer if order status is set to true
     end
 end
 
@@ -107,26 +106,26 @@ Create examples of the classes being used together in different situations and c
 # Integrated Test
 
 takeaway = Takeaway.new
-menu_item = MenuItem.new("1", "Dish", "5")
+menu_item = MenuItem.new("1", "Dish", "5.45")
 takeaway.add_to_menu(menu_item)
 result = takeaway.view_menu
-expect(result).to eq "1. Dish - £5"
+expect(result).to eq "1. Dish - £5.45"
 end
 
 takeaway = Takeaway.new
-menu_item_1 = MenuItem.new("1", "Dish_1", "5")
-menu_item_2 = MenuItem.new("2", "Dish_2", "7")
+menu_item_1 = MenuItem.new("1", "Dish_1", "5.45")
+menu_item_2 = MenuItem.new("2", "Dish_2", "7.29")
 takeaway.add_to_menu(menu_item_1)
 takeaway.add_to_menu(menu_item_2)
 result = takeaway.view_menu
-expect(result).to eq "1. Dish_1 - £5\n2. Dish_2 - £7" 
+expect(result).to eq "1. Dish_1 - £5.45\n2. Dish_2 - £7.29" 
 
 takeaway = Takeaway.new
-menu_item = MenuItem.new("1", "Dish", "5")
+menu_item = MenuItem.new("1", "Dish", "5.45")
 takeaway.add_to_menu(menu_item)
 takeaway.add_to_basket("1")
 result = takeaway.view_basket
-expect(result).to eq "Your Basket: \n1. Dish - £5\nYour Grand Total: £5"
+expect(result).to eq "Your Basket: \n1. Dish - £5.45\nYour Grand Total: £5.45"
 
 takeaway = Takeaway.new
 expect{ takeaway.view_basket }.to raise_error "Your basket is empty"
@@ -140,33 +139,33 @@ Create examples, where appropriate, of the behaviour of each relevant class at a
 
 # MenuItem test
 
-menu_item = MenuItem.new("1", "Dish", "5")
+menu_item = MenuItem.new("1", "Dish", "5.45")
 result = menu_item.identifier
 expect(result).to eq "1"
 
-menu_item = MenuItem.new("1", "Dish", "5")
+menu_item = MenuItem.new("1", "Dish", "5.45")
 result = menu_item.dish
 expect(result).to eq "Dish"
 
-menu_item = MenuItem.new("1", "Dish", "5")
+menu_item = MenuItem.new("1", "Dish", "5.45")
 result = menu_item.price
-expect(result).to eq "5"
+expect(result).to eq "5.45"
 
 
 
 # Takeaway 
 takeaway = Takeaway.new
-fake_item = double(:fake_item, identifier: "1", dish: "Dish", price: "5", to_s: "1. Dish - £5")
+fake_item = double(:fake_item, identifier: "1", dish: "Dish", price: "5.45", to_s: "1. Dish - £5.45")
 takeaway.add_to_menu(fake_item)
 result = takeaway.view_menu
-expect(result).to eq "1. Dish - £5"
+expect(result).to eq "1. Dish - £5.45"
 
 takeaway = Takeaway.new
-fake_item = double(:fake_item, identifier: "1", dish: "Dish", price: "5", to_s: "1. Dish - £5")
+fake_item = double(:fake_item, identifier: "1", dish: "Dish", price: "5.45", to_s: "1. Dish - £5.45")
 takeaway.add_to_menu(fake_item)
 takeaway.add_to_basket("1")
 result = takeaway.view_basket
-expect(result).to eq "Your Basket: \n1. Dish - £5\nYour Grand Total: £5"
+expect(result).to eq "Your Basket: \n1. Dish - £5.45\nYour Grand Total: £5.45"
 
 takeaway = Takeaway.new
 expect{ takeaway.view_basket }.to raise_error "Your basket is empty"
@@ -174,4 +173,4 @@ end
 
 
 5. Implement the Behaviour
-See 'takeaway.rb' & 'menue.rb'
+See 'lib/takeaway.rb' & 'lib/menue.rb'
