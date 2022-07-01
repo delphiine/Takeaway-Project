@@ -36,7 +36,7 @@ Consider diagramming out the classes and their relationships. Take care to focus
             │ owns a list of
             ▼
 ┌───────────────────────────────────────┐
-│ Menu                                  │
+│ MenuItem                              │
 │                                       │
 │ - initialize(identifier, dish, price) |
 | - identifier                          |
@@ -173,4 +173,4 @@ end
 
 
 5. Implement the Behaviour
-See 'lib/takeaway.rb' & 'lib/menue.rb'
+See 'lib/takeaway.rb' & 'lib/menu.rb'
